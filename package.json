@@ -1,0 +1,13 @@
+{
+  "name": "crm",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently 'cd client && npm run dev' 'cd server && npm run dev'"
+  },
+  "keywords": [],
+  "author": "devcote",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
+}
