@@ -1,16 +1,36 @@
+require('dotenv').config()
+
+//_____IMPORTS____________________________________________________
+
 const express = require('express');
+const seq = require('./db.js')
 const cors = require('cors');
+const { apiRouter } = require("./routes")
+
+//_____INITIALIZATION_____________________________________________
 
 const app = express();
-const PORT = 7000;
+const PORT = process.env.PORT || 5000;
+
+//_____MIDDLEWARES________________________________________________
 
 app.use(express.json());
 app.use(cors())
 
-app.get('/', (_req, res) => {
-  res.status(200).json({ message: "success" })
-})
+//_____ROUTES_____________________________________________________
 
-app.listen(PORT, () => {
-  console.log(`app is listening on port: ${PORT}`)
-})
+app.use('/api', apiRouter)
+
+//_____SERVER PRECONF______________________________________________
+
+const startServer = async () => {
+  try {
+    await seq.authenticate()
+    await seq.sync()
+    app.listen(PORT, () => console.log(`APP is running on port ${PORT}`))
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+startServer()
